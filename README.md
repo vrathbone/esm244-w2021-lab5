@@ -1,2 +1,2 @@
 # esm244-w2021-lab5
-Time series continued (including Holt-Winters forecasting), introduction to working with spatial data, variograms, &amp; kriging.
+Time series continued (including some forecasting), (re)introduction to reading and working with spatial data. 

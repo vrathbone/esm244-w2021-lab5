@@ -28,7 +28,7 @@ Remember to reach out on our course Slack channel if you get stuck, we'll be rea
 
 # Part 0: Lab set-up
 
-- Fork the [lab 5 repo from GitHub](), then clone to create a local version-controlled R Project. The project contains the required data in a `data` subfolder, and the keys in the `keys` subfolder. The keys should be for reference if you get stuck - but it is very important for learning and retention that you try following along **on your own** first, troubleshooting as needed, before you use the key for help. 
+- Fork the [lab 5 repo from GitHub](https://github.com/allisonhorst/esm244-w2021-lab5), then clone to create a local version-controlled R Project. The project contains the required data in a `data` subfolder, and the keys in the `keys` subfolder. The keys should be for reference if you get stuck - but it is very important for learning and retention that you try following along **on your own** first, troubleshooting as needed, before you use the key for help. 
 
 - Add a new subfolder (called `my_code` or something) where you'll save your R Markdown documents following along with the instructions below. 
 
@@ -248,6 +248,8 @@ We can see that all three of these models (exponential smoothing, seasonal naive
 
 In the Week 5 lecture, you learned a bit more about projection and coordinate reference systems, types of spatial data, and investigating spatial autocorrelation using *variograms*. We'll practice working with spatial data this week, then move on to variograms, spatial interpolation and point pattern analysis (exploring spatial clustering) next week. 
 
+Today, we'll use vector data (polygons, points) to practice reading in spatial data, checking & updating the CRS, and doing some wrangling and visualization. 
+
 We'll use several datasets:
 
 - California County shapefile (ca_counties_tiger_2016.shp) from the US Census Bureau's 2016 MAF/TIGER database (accessed [here](https://data.ca.gov/dataset/ca-geographic-boundaries/resource/b0007416-a325-4777-9295-368ea6b710e6?inner_span=True))
@@ -294,7 +296,7 @@ ggplot(data = ca_subset) +
   scale_fill_gradientn(colors = c("cyan","blue","purple"))
 ```
 
-### B. Read in red sesbania data (points)
+### B. Invasive red sesbania records (spatial points)
 
 Red sesbania (*Sesbania punicea*) is an invasive plant (see more information from the [California Invasive Plants Council](https://www.cal-ipc.org/plants/profile/sesbania-punicea-profile/)). Observations for locations of invasive red sesbania are from CA DFW. See metadata and information here: https://map.dfg.ca.gov/metadata/ds0080.html
 
@@ -367,3 +369,27 @@ ggplot() +
   
 ```
 
+### C. Making an interactive map with {tmap}
+
+Sometimes we'll want to make a map interactive so that audience members can zoom in, explore different areas, etc. We can use the {tmap} package to create an interactive map. Let's make one for our California counties (fill aesthetic by land area) with the red sesbania locations on top:
+
+```{r}
+# Set the viewing mode to "interactive":
+tmap_mode(mode = "view")
+
+# Then make a map (with the polygon fill color updated by variable 'land_area', updating the color palette to "BuGn"), then add another shape layer for the sesbania records (added as dots):
+tm_shape(ca_subset) +
+  tm_fill("land_area", palette = "BuGn") +
+  tm_shape(sesbania) +
+  tm_dots()
+```
+See *all* kinds of other cool ways you can update your interactive tmaps. 
+
+See: 
+
+- [`tmap` vignettes](https://cran.r-project.org/web/packages/tmap/vignettes/tmap-getstarted.html)
+- [Chapter 8 in Robin Lovelace's "Geocomputation in R"](https://geocompr.robinlovelace.net/adv-map.html#interactive-maps) 
+
+## END PART 2
+
+# END LAB 5
